@@ -24,7 +24,7 @@ twitter_search =searchTwitter("morocco", n=200, lang="en")
 
 tweets.df <- twListToDF(tweets)
 
-# Accéder au texte seulement ne pas inclure les videos et les photos ..
+# AccÃ©der au texte seulement ne pas inclure les videos et les photos ..
 text1 <- sapply(twitter_search, function(x) x$getText())
 # SUpprimer les retweets
 text1 = gsub("(RT|via)((?:\\b\\W*@\\w+)+)", "", text1)
@@ -53,7 +53,7 @@ text1 = sapply(text1, tryTolower)
 #transformation en corpus 
 text1_corpus <- Corpus(VectorSource(text1))
 #transformation en termdocument matrix en supprimant les stopwords en anglais
-#et des mots qui se répetent souvent comme rabat
+#et des mots qui se rÃ©petent souvent comme rabat
 tdm =TermDocumentMatrix(
   text1_corpus,
   control = list(
@@ -66,14 +66,14 @@ m = as.matrix(tdm)
 
 # Compter les mots d'une facon decroisante 
 word_freqs = sort(rowSums(m), decreasing = TRUE)
-# creation d'une dataframe avec les  mots et leurs fréquences
+# creation d'une dataframe avec les  mots et leurs frÃ©quences
 dm = data.frame(word = names(word_freqs), freq = word_freqs)
-# création du wordcloud
+# crÃ©ation du wordcloud
 wordcloud(dm$word, dm$freq, min.freq=2, random.order = FALSE, 
           colors = brewer.pal(11, "Spectral"))
 
 
-#term association a khay dyali
+#term association 
 # les mots frequents dans la frequence est au moins a 15
 (freq.terms <- findFreqTerms(tdm, lowfreq = 15))
 
@@ -81,9 +81,9 @@ wordcloud(dm$word, dm$freq, min.freq=2, random.order = FALSE,
 findAssocs(tdm, "morocco", 0.2)
 p <- plot(tdm, term = freq.terms, corThreshold = 0.1, weighting = T)
 print(p)
-#Fréquence des mots  
+#FrÃ©quence des mots  
 term.freq <- rowSums(as.matrix(tdm))
-#les mots fréquents plus que 20 ce parametre est modifiable aussi selon
+#les mots frÃ©quents plus que 20 ce parametre est modifiable aussi selon
 #ce qu'on veut 
 term.freq <- subset(term.freq, term.freq >=20)
 df <- data.frame(term = names(term.freq), freq = term.freq)
@@ -92,7 +92,7 @@ ggplot(df, aes(x=term, y=freq)) + geom_bar(stat = "identity") +
   xlab("Terms") + ylab("nbre de fois ") +coord_flip()
 
 
-#clusterr a satt !!
+#cluster
 # supprimer les sparseterms sparse ne doit pas depasser 1
 tdm2 <- removeSparseTerms(tdm, sparse = 0.95)
 m2 <- as.matrix(tdm2)
@@ -133,7 +133,7 @@ followers_df %>%
   geom_bar(stat = "identity", color = palette_light()[1], fill = palette_light()[1], alpha = 0.8) +
   theme_tq() +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
-  labs(x = "langue utilisée",
+  labs(x = "langue utilisÃ©e",
        y = "nbre de followers ")
 
 
@@ -166,7 +166,7 @@ tidy_descr %>%
   labs(x = "",
        y = "Nbre de fois ")
 
-#wordcloud des mots les plus fréquents dans notre
+#wordcloud des mots les plus frÃ©quents dans notre
 tidy_descr %>%
   count(word_stem) %>%
   mutate(word_stem = removeNumbers(word_stem)) %>%
@@ -218,7 +218,7 @@ not_words %>%
   scale_fill_manual(values = palette_light()) +
   labs(x = "",
        y = "Score de sentiments * nbre d'occurrences",
-       title = "Mots précédés par  \"not\"") +
+       title = "Mots prÃ©cÃ©dÃ©s par  \"not\"") +
   coord_flip() +
   theme_tq()
 
